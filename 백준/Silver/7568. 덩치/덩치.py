@@ -16,8 +16,7 @@ for j in range(N):
 
     for k in range(N):
         if people[k]['weight'] > people[j]['weight'] and people[j]['height'] < people[k]['height']:
-            if not 'rank' in people[k].keys():
-                rank += 1
+            rank += 1
 
     rankings.append(rank)
 
