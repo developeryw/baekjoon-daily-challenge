@@ -2,114 +2,107 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-  static int[] myArr; // 현재 부분문자열에서 각 DNA 개수
-  static int[] checkArr; // 비밀번호가 되는 조건
-  static int checkSecret; // A, C, T, G가 전부 만족하는지
+  static int[] cur = new int[4];
+  static int[] check = new int[4];
+  static int isCorrect = 0;
 
-  public static void main(String args[]) throws IOException {
-    BufferedReader br = new BufferedReader((new InputStreamReader(System.in)));
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     StringTokenizer st = new StringTokenizer(br.readLine());
 
-    int s = Integer.parseInt(st.nextToken());
-    int p = Integer.parseInt(st.nextToken());
+    int S = Integer.parseInt(st.nextToken());
+    int P = Integer.parseInt(st.nextToken());
 
-    int result = 0; // 최종 정답 저장 (가능한 비밀번호 개수)
-    myArr = new int[4];
-    checkArr = new int[4];
-    checkSecret = 0;
+    int result = 0;
 
     char[] dna = br.readLine().toCharArray();
 
     st = new StringTokenizer(br.readLine());
 
     for (int i = 0; i < 4; i++) {
-      checkArr[i] = Integer.parseInt(st.nextToken());
+      check[i] = Integer.parseInt(st.nextToken());
 
-      if (checkArr[i] == 0) { // 0이면 이미 조건 만족
-        checkSecret++;
+      if (check[i] == 0) {
+        isCorrect++;
       }
     }
 
-    for (int i = 0; i < p; i++) { // 초기 부분 문자열 세팅
+    for (int i = 0; i < P; i++) {
       Add(dna[i]);
     }
 
-    if (checkSecret == 4) { // 초기 문자열이 조건을 만족한다면
-      result++;
+    if (isCorrect == 4) {
+      result += 1;
     }
 
-    // 슬라이딩 윈도우 사용
-    for (int i = p; i < s; i++) { // 오른쪽 포인터
-      int j = i - p; // 왼쪽 포인터
-      // 범위를 유지하면서 한 칸씩 이동
+    for (int i = P; i < S; i++) {
+      int j = i - P;
 
       Add(dna[i]);
       Remove(dna[j]);
 
-      if (checkSecret == 4) {
-        result++;
+      if (isCorrect == 4) {
+        result += 1;
       }
     }
 
     System.out.println(result);
-
-    br.close();
   }
 
   private static void Add(char c) {
-    switch (c) {
+    switch(c) {
       case 'A':
-        myArr[0]++;
-        if (myArr[0] == checkArr[0]) {
-          checkSecret++;
+        cur[0]++;
+        if (cur[0] == check[0]) {
+          isCorrect++;
         }
         break;
       case 'C':
-        myArr[1]++;
-        if (myArr[1] == checkArr[1]) {
-          checkSecret++;
+        cur[1]++;
+        if (cur[1] == check[1]) {
+          isCorrect++;
         }
         break;
       case 'G':
-        myArr[2]++;
-        if (myArr[2] == checkArr[2]) {
-          checkSecret++;
+        cur[2]++;
+        if (cur[2] == check[2]) {
+          isCorrect++;
         }
         break;
       case 'T':
-        myArr[3]++;
-        if (myArr[3] == checkArr[3]) {
-          checkSecret++;
+        cur[3]++;
+        if (cur[3] == check[3]) {
+          isCorrect++;
         }
         break;
     }
   }
 
   private static void Remove(char c) {
-    switch (c) {
+    switch(c) {
       case 'A':
-        if (myArr[0] == checkArr[0]) {
-          checkSecret--;
+        if (cur[0] == check[0]) {
+          isCorrect--;
         }
-        myArr[0]--;
+        cur[0]--;
         break;
       case 'C':
-        if (myArr[1] == checkArr[1]) {
-          checkSecret--;
+        if (cur[1] == check[1]) {
+          isCorrect--;
         }
-        myArr[1]--;
+        cur[1]--;
         break;
       case 'G':
-        if (myArr[2] == checkArr[2]) {
-          checkSecret--;
+        if (cur[2] == check[2]) {
+          isCorrect--;
         }
-        myArr[2]--;
+        cur[2]--;
         break;
       case 'T':
-        if (myArr[3] == checkArr[3]) {
-          checkSecret--;
+        if (cur[3] == check[3]) {
+          isCorrect--;
         }
-        myArr[3]--;
+        cur[3]--;
         break;
     }
   }
