@@ -1,6 +1,5 @@
 class Solution {
     public int solution(int a, int b) {
-        String str = "";
         String sa = Integer.toString(a);
         String sb = Integer.toString(b);
         
